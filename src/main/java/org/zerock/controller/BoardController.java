@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.BoardVO;
 import org.zerock.domain.Criteria;
@@ -114,5 +114,42 @@ public class BoardController {
                          Model model) throws Exception{
 
         model.addAttribute(service.read(bno));
+    }
+
+    @RequestMapping(value = "/removePage" ,method = RequestMethod.POST)
+    public String remove(@RequestParam("bno") int bno,
+                         Criteria cri,
+                         RedirectAttributes rttr) throws Exception{
+
+        service.remove(bno);
+        logger.info(cri.getPage()+""+cri.getPerPageNum());
+        rttr.addAttribute("page",cri.getPage());
+        rttr.addAttribute("perPageNum",cri.getPerPageNum());
+        rttr.addFlashAttribute("msg","SUCCESS");
+
+        return "redirect:/board/listPage";
+    }
+
+    @RequestMapping(value = "/modifyPage",method = RequestMethod.GET)
+    public void modifyPagingGET(@RequestParam("bno") int bno,
+                                @ModelAttribute("cri") Criteria cri,
+                                Model model) throws Exception{
+
+        model.addAttribute(service.read(bno));
+    }
+
+
+    @RequestMapping(value = "/modifyPage",method = RequestMethod.POST)
+    public String modifyPagingPOST(BoardVO board,
+                             Criteria cri,
+                             RedirectAttributes rttr) throws Exception{
+        //logger.info("mod post.........");
+
+        service.modify(board);
+        rttr.addAttribute("page",cri.getPage());
+        rttr.addAttribute("perPageNum",cri.getPerPageNum());
+        rttr.addFlashAttribute("msg","SUCCESS");
+
+        return "redirect:/board/listPage";
     }
 }

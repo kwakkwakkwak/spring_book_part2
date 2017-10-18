@@ -13,9 +13,6 @@
                 </div>
                 <!-- /.box-header -->
                 <!-- p.220의 내용을 넣는다. -->
-                <form role="form" method="post">
-                    <input type="hidden" name ='bno' value="${boardVO.bno}">
-                </form>
 
                 <div class="box-body">
                     <div class="form-group">
@@ -37,7 +34,7 @@
 
                 <div class="box-footer">
                     <button type="submit" class="btn btn-warning modifyBtn">Modify</button>
-                    <button type="submit" class="btn btn-danger remove" >REMOVE</button>
+                    <button type="submit" class="btn btn-danger removeBtn" >REMOVE</button>
                     <button type="submit" class="btn btn-primary goListBtn">GO LIST</button>
                 </div>
 
@@ -53,14 +50,14 @@
 
                        console.log(formObj);
 
-                       $(".btn-warning").on("click", function () {
-                           formObj.attr("action","/board/modify");
+                       $(".modifyBtn").on("click", function () {
+                           formObj.attr("action","/board/modifyPage");
                            formObj.attr("method","get");
                            formObj.submit();
                        });
 
-                       $(".btn-danger").on("click", function () {
-                           formObj.attr("action","/board/remove");
+                       $(".removeBtn").on("click", function () {
+                           formObj.attr("action","/board/removePage");
                            formObj.submit();
                        });
 

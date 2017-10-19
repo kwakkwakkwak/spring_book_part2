@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.BoardVO;
 import org.zerock.domain.Criteria;
 import org.zerock.domain.PageMaker;
+import org.zerock.domain.SearchCriteria;
 import org.zerock.service.BoardService;
 
 import javax.inject.Inject;
@@ -81,19 +82,19 @@ public class BoardController {
     }
 
     @RequestMapping(value = "/listCri", method = RequestMethod.GET)
-    public void listAll(Criteria cri, Model model) throws Exception{
+    public void listAll(SearchCriteria cri, Model model) throws Exception{
         logger.info("show list page with Criteria..............");
 
-        model.addAttribute("list",service.listCriteria(cri));
+        model.addAttribute("list",service.listSearchCriteria(cri));
     }
 
     @RequestMapping(value = "/listPage", method = RequestMethod.GET)
-    public void listPage(Criteria cri, Model model) throws Exception{
+    public void listPage(SearchCriteria cri, Model model) throws Exception{
         logger.info(cri.toString());
 
 //        logger.info("1");
 
-        model.addAttribute("list",service.listCriteria(cri));
+        model.addAttribute("list",service.listSearchCriteria(cri));
 //        logger.info("2");
         PageMaker pageMaker = new PageMaker();
 //        logger.info("3");
@@ -102,7 +103,7 @@ public class BoardController {
 
 //        pageMaker.setTotalCount(131);
         //logger.info("5");
-        pageMaker.setTotalCount(service.countPaging(cri));
+        pageMaker.setTotalCount(service.listCountSearchCriteria(cri));
         model.addAttribute("pageMaker", pageMaker);
 
         logger.info(model.toString());
